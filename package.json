@@ -1,0 +1,21 @@
+{
+  "name": "random-object-language",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "es6-error": "^4.1.1",
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "jest": "^22.2.2"
+  }
+}
