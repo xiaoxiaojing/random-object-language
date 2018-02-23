@@ -55,21 +55,25 @@ describe('FO has dependant FF', () => {
 })
 
 describe('FO has dependant FF', () => {
-  it('should be {}', async () => {
+  it("should be {field_1: 'test1', 'field_2': 'test2', 'field_3': ['test2']}", async () => {
     const FO = {
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': ['field_1'],
+        'dependsOn': ['field_1', 'field_3'],
         'map': [
-          [1, 'test1', {$type: 'assigned', value: 'test2'}]
+          [1, ['test1', ['test2']], {$type: 'assigned', value: 'test2'}]
         ],
         'default': {$type: 'empty'}
       },
       'field_1': {
         '$type': 'assigned',
         'value': 'test1'
+      },
+      'field_3': {
+        '$type': 'assigned',
+        'value': ['test2']
       }
     }
-    await expect(generateObj()(FO)).resolves.toEqual({field_1: 'test1', 'field_2': 'test2'})
+    await expect(generateObj()(FO)).resolves.toEqual({field_1: 'test1', 'field_2': 'test2', 'field_3': ['test2']})
   })
 })
