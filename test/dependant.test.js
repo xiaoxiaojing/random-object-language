@@ -14,6 +14,20 @@ describe('FO only has dependant FF', () => {
   })
 })
 
+describe('FO only has dependant FF', () => {
+  it('should be default', async () => {
+    const FO = {
+      'field_2': {
+        '$type': 'dependant',
+        'dependsOn': ['field_1'],
+        'map': [],
+        'default': 'test'
+      }
+    }
+    await expect(generateObj()(FO)).resolves.toEqual({field_2: 'test'})
+  })
+})
+
 describe('FO has dependant FF', () => {
   it('should be {field_1: test1}', async () => {
     const FO = {
@@ -31,6 +45,26 @@ describe('FO has dependant FF', () => {
       }
     }
     await expect(generateObj()(FO)).resolves.toEqual({field_1: 'test1'})
+  })
+})
+
+describe('FO has dependant FF', () => {
+  it('should be {field_1: test1}', async () => {
+    const FO = {
+      'field_2': {
+        '$type': 'dependant',
+        'dependsOn': ['field_1'],
+        'map': [
+          ['test1', 'test2']
+        ],
+        'default': {$type: 'empty'}
+      },
+      'field_1': {
+        '$type': 'assigned',
+        'value': 'test1'
+      }
+    }
+    await expect(generateObj()(FO)).resolves.toEqual({field_1: 'test1', field_2: 'test2'})
   })
 })
 
