@@ -31,9 +31,25 @@ describe('FO has LanguageError', () => {
       },
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1',
+        'dependsOn': 'field_1'
+      }
+    }
+    await expect(generateObj()(FO)).rejects.toThrow()
+  })
+})
+
+describe('FO has LanguageError', () => {
+  it('should throw error: LanguageError', async () => {
+    const FO = {
+      'field_1': {
+        '$type': 'assigned',
+        'value': 'Alice'
+      },
+      'field_2': {
+        '$type': 'dependant',
+        'dependsOn': ['field_1'],
         'map': [
-          [1, 'Alice', {}]
+          ['Alice', {}]
         ]
       }
     }
@@ -50,9 +66,9 @@ describe('FO has cyclic dependence', () => {
       },
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1',
+        'dependsOn': ['field_1'],
         'map': [
-          [1, 'Alice', {
+          ['Alice', {
             '$type': 'dependant',
             'dependsOn': ['field_2']
           }]

@@ -5,7 +5,7 @@ describe('FO only has dependant FF', () => {
     const FO = {
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1',
+        'dependsOn': ['field_1'],
         'map': [],
         'default': {$type: 'empty'}
       }
@@ -19,9 +19,9 @@ describe('FO has dependant FF', () => {
     const FO = {
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1',
+        'dependsOn': ['field_1'],
         'map': [
-          [1, 'test', {$type: 'assigned', value: 'test2'}]
+          ['test', {$type: 'assigned', value: 'test2'}]
         ],
         'default': {$type: 'empty'}
       },
@@ -39,9 +39,9 @@ describe('FO has dependant FF', () => {
     const FO = {
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1',
+        'dependsOn': ['field_1'],
         'map': [
-          [1, 'test1', {$type: 'assigned', value: 'test2'}]
+          ['test1', {$type: 'assigned', value: 'test2'}]
         ],
         'default': {$type: 'empty'}
       },
@@ -61,7 +61,7 @@ describe('FO has dependant FF', () => {
         '$type': 'dependant',
         'dependsOn': ['field_1', 'field_3'],
         'map': [
-          [1, ['test1', ['test2']], {$type: 'assigned', value: 'test2'}]
+          ['test1', ['test2'], {$type: 'assigned', value: 'test2'}]
         ],
         'default': {$type: 'empty'}
       },

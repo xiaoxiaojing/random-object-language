@@ -7,6 +7,13 @@ describe('FO is {}', () => {
   })
 })
 
+describe("FO is {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}, 'filedsNull': null}", () => {
+  it("should be {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}}", async () => {
+    const FO = {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}, 'filedsNull': null}
+    await expect(generateObj()(FO)).resolves.toEqual({'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}})
+  })
+})
+
 describe('FO only has empty FF', () => {
   it('should be {}', async () => {
     const FO = {
