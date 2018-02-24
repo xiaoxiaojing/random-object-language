@@ -1,7 +1,6 @@
 const language = require('../index')
 
 const FO = {
-  'field_1': {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}, 'filedsNull': null},
   'field_4': {
     '$type': 'dependant',
     'dependsOn': ['field_1'],

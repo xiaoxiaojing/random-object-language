@@ -7,19 +7,11 @@ describe('FO is {}', () => {
   })
 })
 
-describe("FO is {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}, 'filedsNull': null}", () => {
-  it("should be {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}}", async () => {
-    const FO = {'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}, 'filedsNull': null}
-    await expect(generateObj()(FO)).resolves.toEqual({'fileds': 'test', 'filedsArray': [1, 2], 'filedsObject': {'test': 1}})
-  })
-})
-
 describe('FO only has empty FF', () => {
   it('should be {}', async () => {
     const FO = {
       'field_1': {
-        '$type': 'empty',
-        'value': 'some concrete value'
+        '$type': 'DNE'
       }
     }
     await expect(generateObj()(FO)).resolves.toEqual({})
@@ -42,17 +34,35 @@ describe('FO only has number FF', () => {
   it('should be in the range of 1 to 10', async () => {
     const FO = {
       'field_1': {
-        '$type': 'number'
+        '$type': 'number',
+        'range': {
+          'lt': 1,
+          'gt': 10
+        }
       }
     }
     return generateObj()(FO).then(result => {
-      expect(result['field_1']).toBe(Infinity)
+      expect(result['field_1']).toBeGreaterThanOrEqual(1)
+      expect(result['field_1']).toBeLessThanOrEqual(10)
     })
   })
 })
 
-describe('FO only has number FF', () => {
-  it('should be in the range of 1 to 10', async () => {
+describe('FO only has no range number FF', () => {
+  it('should be any number', async () => {
+    const FO = {
+      'field_1': {
+        '$type': 'number'
+      }
+    }
+    return generateObj()(FO).then(result => {
+      expect(result['field_1']).toEqual(expect.any(Number))
+    })
+  })
+})
+
+describe('FO only has number FF, which is integer', () => {
+  it('should be 4', async () => {
     const FO = {
       'field_1': {
         '$type': 'number',
@@ -65,24 +75,6 @@ describe('FO only has number FF', () => {
     }
     return generateObj()(FO).then(result => {
       expect(result['field_1']).toBeGreaterThanOrEqual(4)
-    })
-  })
-})
-
-describe('FO only has number FF, which value is in the range of 1 to 10', () => {
-  it('should be in the range of 1 to 10', async () => {
-    const FO = {
-      'field_1': {
-        '$type': 'number',
-        'range': {
-          'lt': 1,
-          'gt': 10
-        }
-      }
-    }
-    return generateObj()(FO).then(result => {
-      expect(result['field_1']).toBeGreaterThanOrEqual(1)
-      expect(result['field_1']).toBeLessThanOrEqual(10)
     })
   })
 })
