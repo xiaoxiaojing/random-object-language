@@ -36,27 +36,14 @@ describe('FO only has number FF', () => {
       'field_1': {
         '$type': 'number',
         'range': {
-          'lt': 1,
-          'gt': 10
+          'lt': 3,
+          'gt': 1
         }
       }
     }
     return generateObj()(FO).then(result => {
-      expect(result['field_1']).toBeGreaterThanOrEqual(1)
-      expect(result['field_1']).toBeLessThanOrEqual(10)
-    })
-  })
-})
-
-describe('FO only has no range number FF', () => {
-  it('should be any number', async () => {
-    const FO = {
-      'field_1': {
-        '$type': 'number'
-      }
-    }
-    return generateObj()(FO).then(result => {
-      expect(result['field_1']).toEqual(expect.any(Number))
+      expect(result['field_1']).toBeGreaterThan(1)
+      expect(result['field_1']).toBeLessThan(3)
     })
   })
 })
@@ -68,13 +55,13 @@ describe('FO only has number FF, which is integer', () => {
         '$type': 'number',
         'integer': true,
         'range': {
-          lt: 4.9,
-          gt: 4
+          lt: 3,
+          gt: 1
         }
       }
     }
     return generateObj()(FO).then(result => {
-      expect(result['field_1']).toBeGreaterThanOrEqual(4)
+      expect(result['field_1']).toBe(2)
     })
   })
 })

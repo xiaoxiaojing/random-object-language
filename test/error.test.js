@@ -1,6 +1,29 @@
 const generateObj = require('../index')
 
 describe('FO has LanguageError', () => {
+  it('should throw error: LanguageError, range must be defined', async () => {
+    const FO = {
+      'field_1': {
+        '$type': 'number'
+      }
+    }
+    await expect(generateObj()(FO)).rejects.toThrow()
+  })
+})
+
+describe('FO has LanguageError', () => {
+  it('should throw error: LanguageError, range must has attribute: gt/gte, lt/lte', async () => {
+    const FO = {
+      'field_1': {
+        '$type': 'number',
+        'range': {}
+      }
+    }
+    await expect(generateObj()(FO)).rejects.toThrow()
+  })
+})
+
+describe('FO has LanguageError', () => {
   it('should throw error: LanguageError, generators is not exist', async () => {
     const FO = {
       'field_1': {
@@ -40,7 +63,10 @@ describe('FO has LanguageError', () => {
       },
       'field_2': {
         '$type': 'dependant',
-        'dependsOn': 'field_1'
+        'dependsOn': 'field_1',
+        'map': [
+          ['Alice', {$type: 'DNE'}]
+        ]
       }
     }
     await expect(generateObj()(FO)).rejects.toThrow()
@@ -58,7 +84,7 @@ describe('FO has LanguageError', () => {
         '$type': 'dependant',
         'dependsOn': ['field_3'],
         'map': [
-          ['Alice', {}]
+          ['Alice', {$type: 'DNE'}]
         ]
       }
     }
@@ -82,6 +108,26 @@ describe('FO has cyclic dependence', () => {
             'dependsOn': ['field_2']
           }]
         ]
+      }
+    }
+    await expect(generateObj()(FO)).rejects.toThrow()
+  })
+})
+
+describe('FO has dependant FF', () => {
+  it('should throw error: LoopbackError, possibleFF is not a FF', async () => {
+    const FO = {
+      'field_2': {
+        '$type': 'dependant',
+        'dependsOn': ['field_1'],
+        'map': [
+          ['test']
+        ],
+        'default': {$type: 'DNE'}
+      },
+      'field_1': {
+        '$type': 'assigned',
+        'value': 'test'
       }
     }
     await expect(generateObj()(FO)).rejects.toThrow()
